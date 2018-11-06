@@ -4,4 +4,4 @@ Nothing fancy, just a simple image AJAX uploader and cropper that utilizes PHP "
 
 index.htm is the start file.
 
-IE11+ browser support.
+PHP 7+ server-side, IE11+ browser support.

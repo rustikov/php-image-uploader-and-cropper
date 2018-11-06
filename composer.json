@@ -1,0 +1,12 @@
+{
+    "name": "alex/image-uploader",
+    "require": {
+        "intervention/image": "^2.4"
+    },
+    "authors": [
+        {
+            "name": "Alex Rustikov",
+            "email": "arustikov@thecargoagency.com"
+        }
+    ]
+}

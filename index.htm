@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <title>Image Uploader</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.3/cropper.min.css">
+        <link rel="stylesheet" type="text/css" href="app.css">
+    </head>
+    <body>
+        <div id="app">
+          <div class="browse">
+            <input type="file" @change="loadMultiFiles" accept=".jpg,.jpeg,.png,.bmp" multiple :disabled="isLoading">
+          </div>
+          <div class="images" v-if="allImages.length > 0">
+            <div class="thumb" v-for="(image, i) in allImages">
+                <img :src="image" alt="" :style="items[i].style">
+                <span class="thumb-icon thumb-icon-remove" @click="removeFile(i)" title="Remove"></span>
+                <span class="thumb-icon thumb-icon-move" title="Move/Reorder"></span>
+                <span class="thumb-icon thumb-icon-edit" @click="editFile(i)" title="Edit"></span>
+            </div>
+          </div>
+          <div class="editor" :class="{'is-active': editIndex !== null}">
+              <div id="tools">
+                <div class="icon save" @click="crop" title="Crop"></div>
+                <div class="icon reset" @click="reset" title="Reset"></div>
+                <div class="icon zoom-in" @click="zoomIn" title="Zoom In"></div>
+                <div class="icon zoom-out" @click="zoomOut" title="Zoom Out"></div>
+                <div class="icon rotate-cw" @click="rotateRight" title="Rotate Clockwise"></div>
+                <div class="icon rotate-ccw" @click="rotateLeft" title="Rotate Counterclockwise"></div>
+                <div class="icon exit" @click="exit" title="Exit"></div>
+            </div>
+            <img id="image">
+            <div class="preview"></div>
+          </div>
+          <button @click="saveFiles" :disabled="isLoading" v-if="allImages.length > 0">Save All Images</button>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/4.1.1/es6-promise.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.3/cropper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.6.1/Sortable.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
+        <script src="app.js"></script>
+    </body>
+</html>

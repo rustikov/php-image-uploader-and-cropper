@@ -2,6 +2,7 @@ const app = new Vue({
   el: '#app',
   data: {
     isLoading: false,
+    accept: '',
     items: [],
     editIndex: null,
     cropper: null,
@@ -12,27 +13,30 @@ const app = new Vue({
       // console.log('images', to, from)
       if (this.items.filter(item => item.file !== null).length === this.items.filter(item => item.src !== null).length) {
         this.isLoading = false;
-        if (this.sortable) {
-          this.sortable.destroy();
-        }
-        this.sortable = Sortable.create(
-          document.querySelector('.images'),
-          {
-            handle: ".thumb-icon-move",
-            onSort: (e) => {
-              let item = this.items[e.oldIndex];
-              this.items[e.oldIndex] = this.items[e.newIndex];
-              this.items[e.newIndex] = item;
-            }
+        this.$nextTick(() => {
+          if (this.sortable) {
+            this.sortable.destroy();
           }
-        );
+          this.sortable = Sortable.create(
+            document.querySelector('.images'),
+            {
+              handle: ".thumb-icon-move",
+              onSort: (e) => {
+                let item = this.items[e.oldIndex];
+                this.items[e.oldIndex] = this.items[e.newIndex];
+                this.items[e.newIndex] = item;
+              }
+            }
+          );
+        });
       }
     },
   },
   computed: {
     allImages() {
       return this.items.filter(item => {
-        return true;
+        console.log('^.+(' + this.accept.join('|') + ')$');
+        return item.file.name.match(new RegExp('^.+(' + this.accept.join('|') + ')$'));
       }).map(item => {
         return item.src;
       })
@@ -61,10 +65,8 @@ const app = new Vue({
         newIndex = i + itmemsNum;
         item = this.makeItem();
         item.file = e.target.files[i];
-        this.items.push(item);
-        console.log('newIndex', newIndex)
+        this.items[newIndex] = item;
         this.loadFile(item.file, newIndex, (src, index) => {
-          console.log('index', index)
           this.items[index].src = src;
           this.items = this.items.slice();
         })
@@ -173,6 +175,6 @@ const app = new Vue({
     }
   },
   mounted() {
-
+    this.accept = document.querySelector('.browse input').getAttribute('accept').split(',');
   }
 });

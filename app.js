@@ -55,12 +55,16 @@ const app = new Vue({
         return;
       }
       this.isLoading = true;
-      let item;
+      let itmemsNum = this.items.length;
+      let item, newIndex;
       for (let i = 0, ii = e.target.files.length; i < ii; i++) {
+        newIndex = i + itmemsNum;
         item = this.makeItem();
         item.file = e.target.files[i];
         this.items.push(item);
-        this.loadFile(item.file, i, (src, index) => {
+        console.log('newIndex', newIndex)
+        this.loadFile(item.file, newIndex, (src, index) => {
+          console.log('index', index)
           this.items[index].src = src;
           this.items = this.items.slice();
         })
@@ -69,7 +73,7 @@ const app = new Vue({
     loadFile(file, index, callback) {
       const reader = new FileReader();
       reader.addEventListener('load', () => {
-        return callback(reader.result, index)
+        return callback(reader.result, index);
       }, false);
       reader.readAsDataURL(file);
     },

@@ -20,6 +20,7 @@ $manager = new ImageManager([
 
 if (empty($_FILES)) {
     header("HTTP/1.0 400 Bad Request");
+    die;
 }
 
 $output = [];
